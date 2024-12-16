@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Survey</title>
+    <style>
+        /* General styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .centered {
+            text-align: center;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Background animations */
+        .wavy-background {
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd);
+            background-size: 400% 400%;
+            animation: wave 8s ease infinite;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        @keyframes wave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Buttons */
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Cookie banners */
+        .cookie-banner {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 80%;
+        }
+
+        .case1-banner { background-color: #ffeb3b; color: black; }
+        .case2-banner { background-color: #f44336; color: white; }
+        .case3-banner { background-color: #4caf50; color: white; }
+        .case4-banner { background-color: #2196f3; color: white; }
+
+        .cookie-banner button {
+            margin: 5px;
+        }
+
+        /* Case Pages */
+        .case-page {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2rem;
+        }
+
+        #case1 { background-color: orange; }
+        #case2 { background-color: red; }
+        #case3 { background-color: blue; }
+        #case4 { background-color: green; }
+    </style>
+</head>
+<body>
+    <!-- Main Survey Intro -->
+    <div id="intro" class="wavy-background">
+        <div class="centered">
+            <h1>Welcome to Our Survey</h1>
+            <p>Do you agree to participate?</p>
+            <button onclick="startSurvey()">Yes</button>
+            <button onclick="declineSurvey()">No</button>
+        </div>
+    </div>
+
+    <!-- Demographic Questions -->
+    <div id="demographics" class="hidden">
+        <div class="wavy-background">
+            <div class="centered">
+                <h2>Demographic Questions</h2>
+                <form id="demoForm">
+                    <p>What is your gender?</p>
+                    <label><input type="radio" name="gender" value="Male" required> Male</label>
+                    <label><input type="radio" name="gender" value="Female"> Female</label>
+                    
+                    <p>What is your age group?</p>
+                    <label><input type="radio" name="age" value="18-30" required> 18-30</label>
+                    <label><input type="radio" name="age" value="31-45"> 31-45</label>
+                    <label><input type="radio" name="age" value="46-60"> 46-60</label>
+                    <label><input type="radio" name="age" value="61+"> 61 and above</label>
+                </form>
+                <button onclick="showCasePage()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Random Case Pages -->
+    <div id="case1" class="case-page hidden">
+        <div>Welcome to Trendol! (Orange Theme)</div>
+        <div class="cookie-banner case1-banner">
+            <p>How do you want to manage your cookies?</p>
+            <button onclick="acceptCookies()">Accept</button>
+            <button onclick="rejectCookies()">Reject</button>
+            <button onclick="manageCookies()">Manage</button>
+        </div>
+    </div>
+
+    <div id="case2" class="case-page hidden">
+        <div>Welcome to Anatolia! (Red Theme)</div>
+        <div class="cookie-banner case2-banner">
+            <p>How do you want to manage your cookies?</p>
+            <button onclick="acceptCookies()">Accept</button>
+            <button onclick="rejectCookies()">Reject</button>
+            <button onclick="manageCookies()">Manage</button>
+        </div>
+    </div>
+
+    <div id="case3" class="case-page hidden">
+        <div>Welcome to Ghazi! (Blue Theme)</div>
+        <div class="cookie-banner case3-banner">
+            <p>How do you want to manage your cookies?</p>
+            <button onclick="acceptCookies()">Accept</button>
+            <button onclick="rejectCookies()">Reject</button>
+            <button onclick="manageCookies()">Manage</button>
+        </div>
+    </div>
+
+    <div id="case4" class="case-page hidden">
+        <div>Welcome to Istanbul Restaurant! (Green Theme)</div>
+        <div class="cookie-banner case4-banner">
+            <p>How do you want to manage your cookies?</p>
+            <button onclick="acceptCookies()">Accept</button>
+            <button onclick="rejectCookies()">Reject</button>
+            <button onclick="manageCookies()">Manage</button>
+        </div>
+    </div>
+
+    <!-- Final Likert Page -->
+    <div id="likertPage" class="hidden">
+        <div class="wavy-background">
+            <div class="centered">
+                <h2>Survey Statements</h2>
+                <form id="likertForm">
+                    <p>1. I find this website trustworthy.</p>
+                    <!-- Add more Likert items here -->
+                </form>
+                <button onclick="endSurvey()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startSurvey() {
+            document.getElementById("intro").classList.add("hidden");
+            document.getElementById("demographics").classList.remove("hidden");
+        }
+
+        function declineSurvey() {
+            alert("Thank you for visiting!");
+        }
+
+        function showCasePage() {
+            const cases = ["case1", "case2", "case3", "case4"];
+            const randomCase = cases[Math.floor(Math.random() * cases.length)];
+            document.getElementById("demographics").classList.add("hidden");
+            document.getElementById(randomCase).classList.remove("hidden");
+        }
+
+        function acceptCookies() {
+            moveToLikert();
+        }
+
+        function rejectCookies() {
+            moveToLikert();
+        }
+
+        function manageCookies() {
+            moveToLikert();
+        }
+
+        function moveToLikert() {
+            document.querySelector(".case-page:not(.hidden)").classList.add("hidden");
+            document.getElementById("likertPage").classList.remove("hidden");
+        }
+
+        function endSurvey() {
+            alert("Survey Completed! Thank you.");
+        }
+    </script>
+</body>
+</html>
